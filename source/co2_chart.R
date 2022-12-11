@@ -6,9 +6,19 @@ library(plotly)
 ## data + refining
 co2_data <- read.csv("https://raw.githubusercontent.com/owid/co2-data/master/owid-co2-data.csv"
 co2_data <- na.omit(co2_data)
+names(co2_data)
 View(co2_data)
 
 ## chart
+
+
+
+
+
+
+
+
+## chart from a4
 get_co2 <- function(country) {
   df <- co2_data %>%
     group_by(year,country) %>%
