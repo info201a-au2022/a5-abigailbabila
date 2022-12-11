@@ -16,11 +16,11 @@ co2_data  = subset(co2_data, select = -c(iso_code))
 cols <- c("co2_per_capita","co2_growth_abs","coal_co2")
 co2_data
 
-highest_co2_per_capita$co2_per_capita
+#highest_co2_per_capita$co2_per_capita
 
 ui <- 
   fluidPage(
-    theme = bslib::bs_theme(bootswatch = "united"),
+    theme = bslib::bs_theme(bootswatch = "minty"),
     tabsetPanel(
       tabPanel("Introduction", 
                fluidPage(
@@ -42,14 +42,22 @@ ui <-
                          tags$li("The average coal_co2 across all countries 2021 is",round(coal_co2_average,2))
                  ),
                  tags$ul(tags$b("Highest/Lowest Values"),
-                         tags$li("Highest value of CO2 emissions per captia (co2_per_capita) in the world: ",round(highest_co2_per_capita,2),"in ",highest_co2_per_capita$year,"for: ",highest_co2_per_capita$country),
-                         tags$li("Lowest value of CO2 emissions per captia (co2_per_capita) in the world: ",round(min_co2_per_capita$co2_per_capita,2),"in ",lowest_co2_per_capita$year,"for: ",lowest_co2_per_capita$country),
+                         tags$li("Highest value of CO2 emissions per captia (co2_per_capita) in the world: ",
+                                 round(highest_co2_per_capita$year,2),"in ",highest_co2_per_capita$year,"for: ",
+                                 highest_co2_per_capita$country),
+                         tags$li("Lowest value of CO2 emissions per captia (co2_per_capita) in the world: ",
+                                 round(lowest_co2_per_capita$co2_per_capita,2),"in ",lowest_co2_per_capita$year,"for: ",
+                                 lowest_co2_per_capita$country),
                          
-                         tags$li("Highest value of absolute growth of CO2(co2_growth_abs) in the world: ",round(highest_co2_growth_abs$co2_growth_abs,2),"in ",highest_co2_growth_abs$year,"for: ",max_co2_growth_abs$country),
-                         tags$li("Lowest value of absolute growth of CO2(co2_growth_abs) in the world: ",round(lowest_co2_growth_abs$co2_growth_abs,2),"in ",lowest_co2_growth_abs$year,"for: ",lowest_co2_growth_abs$country),
+                         tags$li("Highest value of absolute growth of CO2(co2_growth_abs) in the world: ",
+                                 round(highest_co2_growth_abs$co2_growth_abs,2),"in ",highest_co2_growth_abs$year,"for: ",highest_co2_growth_abs$country),
+                         tags$li("Lowest value of absolute growth of CO2(co2_growth_abs) in the world: ",
+                                 round(lowest_co2_growth_abs$co2_growth_abs,2),"in ",lowest_co2_growth_abs$year,"for: ",lowest_co2_growth_abs$country),
                          
-                         tags$li("Highest value of CO2 emissions from coal (coal_co2) in the world: ",round(highest_coal_co2$oil_co2,2),"in ",highest_coal_co2$year,"for country : ",highest_coal_co22$country),
-                         tags$li("Lowest value of CO2 emissions from coal (coal_co2) in the world: ",round(min_oil_co2$oil_co2,2),"in ",lowest_coal_co22$year,"for: ",lowest_coal_co2$country)
+                         tags$li("Highest value of CO2 emissions from coal (coal_co2) in the world: ",
+                                 round(highest_coal_co2$coal_co2,2),"in ",highest_coal_co2$year,"for country : ",highest_coal_co2$country),
+                         tags$li("Lowest value of CO2 emissions from coal (coal_co2) in the world: ",
+                                 round(lowest_coal_co2$coal_co2,2),"in ",lowest_coal_co2$year,"for: ",lowest_coal_co2$country)
                  ),
                  p("These are the percent change the variables studied from 1960-2021")),
                  p(tags$b("Percentage change of CO2 emissions per capita (co2_per_capita:)")),
@@ -58,8 +66,8 @@ ui <-
                  DT::dataTableOutput("percent_difference_co2_growth_abs"),
                  p(tags$b("Percentage change of CO2 emissions from coal (coal_co2:)")),
                  DT::dataTableOutput("percent_difference_coal_co2")
-               )
-      ),
+               ),
+
       tabPanel("Interactive Graph",
                fluidPage(
                  
@@ -82,18 +90,21 @@ ui <-
                        selected = "co2_per_capita",
                        multiple = FALSE
                      ),
-                     dateRangeInput('dateRange',label = "Select Years : ",format = "yyyy",start = '1960-01-01', end='2021-01-01',startview = "year",separator = " - "),
+                     dateRangeInput('dateRange',label = "Select Years : ",
+                                    format = "yyyy",start = '1960-01-01', end='2021-01-01',
+                                    startview = "year",separator = " - "),
                      br(),
                      br(),
-                     br(),
+                     br()),
                    mainPanel(
                      plotlyOutput("line_plot_country"),
                      p('This graph describes the relationship between CO2 emissions and countries throughout 1960 and 2021, This is a customizable graph where you can choose which country, variable, and year range to see.')
                    )
                    
-                 )
+                 
                )
       )
+    )
     )
   )
 

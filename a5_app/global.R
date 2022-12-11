@@ -1,3 +1,23 @@
+# library(shiny)
+# library(shinydashboard)
+# library(maps)
+# library(dplyr)
+# library(leaflet)
+# library(ggplot2)
+# library(tidyverse)
+# library(DT)
+# library(plotly)
+# library(corrplot)
+# library(caret)
+# library(stargazer)
+# library(MASS)
+# library(caTools)
+# library(broom)
+# 
+# source("a5.server.R", local = T)
+# 
+# source("a5.ui.R")
+
 library(shiny)
 library(ggplot2)
 library(plotly)
@@ -44,7 +64,7 @@ co2_growth_abs_average <- data.frame(data %>%
 coal_co2_average <- data.frame(data %>% 
                                  filter(year == 2021) %>% 
                                  summarize(Mean = mean(coal_co2))) %>% pull(Mean)
-                               
+
 temp <- data.frame(data %>% filter(!country %in% c('World','Asia')))
 
 ## max and min of data
@@ -71,23 +91,26 @@ data_co2 <- data %>%
 
 ## difference in percentage
 percent_difference_co2_per_capita <- data.frame(data_co2 %>%
-                                       group_by(country) %>% 
-                                       summarise(co2_per_capita_difference = ((max(co2_per_capita) - min(co2_per_capita))/min(co2_per_capita))*100))
+                                                  group_by(country) %>% 
+                                                  summarise(co2_per_capita_difference = ((max(co2_per_capita) - min(co2_per_capita))/min(co2_per_capita))*100))
 
 percent_difference_co2_growth_abs <-data.frame(data_co2 %>%
-                                                group_by(country) %>%
-                                                summarise(co2_growth_abs_difference = ((max(co2_growth_abs) - min(co2_growth_abs))/min(co2_growth_abs))*100))
+                                                 group_by(country) %>%
+                                                 summarise(co2_growth_abs_difference = ((max(co2_growth_abs) - min(co2_growth_abs))/min(co2_growth_abs))*100))
 
 percent_difference_coal_co2 <- data.frame(data_co2 %>%
-                                         group_by(country) %>%
-                                         summarise(coal_co2_difference = ((max(coal_co2) - min(coal_co2))/min(coal_co2))*100))
+                                            group_by(country) %>%
+                                            summarise(coal_co2_difference = ((max(coal_co2) - min(coal_co2))/min(coal_co2))*100))
 
 
 pacman::p_load("tidyverse", "lubridate", "shiny")
 
 ## line graph
 
-plot <- function(data, country1 = 'Afghanistan', col_name = 'co2_per_capita',date1,date2) {
+plot_line <- function(data, 
+                      country1 = 'Afghanistan',
+                      col_name1 = 'co2_per_capita',
+                      date1,date2) {
   
   
   date1 <- format(as.Date(date1, format="%d/%m/%Y"),"%Y")
@@ -95,32 +118,17 @@ plot <- function(data, country1 = 'Afghanistan', col_name = 'co2_per_capita',dat
   
   data <- data %>%
     filter(year %in% (as.numeric(date1):as.numeric(date2)) )
-  View(data)
+  
   data_fun <- data.frame(data %>% 
                            filter(country == country1))
   graph <- plot_ly(data_fun, x = data_fun$year, y = data_fun[[col_name1]], name = col_name1, mode = 'lines+markers') 
-  graph <- graoh %>% layout(title = stringr::str_glue("Line Graph for - {country1} for {col_name1}."),
-                        xaxis = list(title = ""),
-                        yaxis = list(title = ""))
+  graph <- graph %>% layout(title = stringr::str_glue("Line Graph for - {country1} for {col_name1}."),
+                            xaxis = list(title = ""),
+                            yaxis = list(title = ""))
   return(graph)
 }
 
-## server input
 
-server <- function(input, output, session) {
-  output$line_plot_country <- renderPlotly(
-    plot_line(data, country1 = input$select_country,col_name1 = input$select_variable1,date1 = input$dateRange[1], date2 = input$dateRange[2])
-  )
-
-  output$percent_difference_co2_per_capita <- DT::renderDT(
-    percent_difference_co2_per_capita
-  )
-  output$percent_difference_co2_growth_abs <- DT::renderDT(
-    percent_difference_co2_growth_abs
-  )
-  output$percent_difference_coal_co2 <- DT::renderDT(
-    percent_difference_coal_co2
-  )
-  
-}
-
+#source("https://raw.githubusercontent.com/info201a-au2022/a5-abigailbabila/main/a5_app/a5.ui.R")
+#source("https://raw.githubusercontent.com/info201a-au2022/a5-abigailbabila/main/a5_app/a5.server.R")
+#shinyApp(ui = ui, server = server)
