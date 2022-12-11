@@ -18,9 +18,8 @@ library(MASS)
 ## data + refining
 co2_data <- read.csv("https://raw.githubusercontent.com/owid/co2-data/master/owid-co2-data.csv")
 co2_data <- na.omit(co2_data)
-names(co2_data)
+
 cols <- c("co2_per_capita","co2_growth_abs","coal_co2")
-View(co2_data)
 
 data <- co2_data %>% 
   group_by(year) %>% 

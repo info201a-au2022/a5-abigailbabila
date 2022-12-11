@@ -98,26 +98,3 @@ ui <-
   #      tags$li("Average value of absolute growth of CO2 (co2_growth_abs) in the world:",round(co2_growth_abs_average,2)),
    #     tags$li("Average value of CO2 emissions from coal (coal_co2) in the world:",round(coal_co2_average,2))
 #),
-
-# Define UI for application that draws a histogram
-#shinyUI(fluidPage(
-
-    # Application title
-#    titlePanel("Old Faithful Geyser Data"),
-
-    # Sidebar with a slider input for number of bins
-#    sidebarLayout(
-#        sidebarPanel(
-#            sliderInput("bins",
-                        "Number of bins:",
-#                        min = 1,
-#                       max = 50,
-#                        value = 30)
-#        ),
-
-        # Show a plot of the generated distribution
-#        mainPanel(
-#            plotOutput("distPlot")
-#        )
-#    )
-#))
