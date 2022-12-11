@@ -10,6 +10,12 @@ library(rio)
 library(DT)
 library(stargazer)
 
+co2_data <- read.csv("https://raw.githubusercontent.com/owid/co2-data/master/owid-co2-data.csv")
+co2_data <- na.omit(co2_data)
+co2_data  = subset(co2_data, select = -c(iso_code))
+cols <- c("co2_per_capita","co2_growth_abs","coal_co2")
+co2_data
+
 highest_co2_per_capita$co2_per_capita
 
 ui <- 
@@ -31,9 +37,9 @@ ui <-
                    tags$li(tags$b("CO2 Emissions From Coal (coal_co2)"))
                  ),
                  tags$ul(tags$b("Average Values"),
-                         tags$li("The average value of co2_per_capita across all the counties (in the year 2021) is",round(co2_per_capita_average,2)),
-                         tags$li("The average value of co2_growth_abs across all the counties (in the year 2021) is",round(co2_growth_abs_average,2)),
-                         tags$li("The average value of oil_co2 across all the counties (in the year 2021) is",round(coal_co2_average,2))
+                         tags$li("The average co2_per_capita across all countries in the year 2021 is",round(co2_per_capita_average,2)),
+                         tags$li("The average co2_growth_abs across all countries in the year 2021 is",round(co2_growth_abs_average,2)),
+                         tags$li("The average coal_co2 across all countries 2021 is",round(coal_co2_average,2))
                  ),
                  tags$ul(tags$b("Highest/Lowest Values"),
                          tags$li("Highest value of CO2 emissions per captia (co2_per_capita) in the world: ",round(highest_co2_per_capita,2),"in ",highest_co2_per_capita$year,"for: ",highest_co2_per_capita$country),

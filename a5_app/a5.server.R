@@ -18,8 +18,9 @@ library(MASS)
 ## data + refining
 co2_data <- read.csv("https://raw.githubusercontent.com/owid/co2-data/master/owid-co2-data.csv")
 co2_data <- na.omit(co2_data)
-
+co2_data  = subset(co2_data, select = -c(iso_code))
 cols <- c("co2_per_capita","co2_growth_abs","coal_co2")
+co2_data
 
 data <- co2_data %>% 
   group_by(year) %>% 
@@ -31,7 +32,7 @@ data <- co2_data %>%
   group_by(year) %>%
   mutate(coal_co2 = ifelse(is.na(coal_co2), mean(coal_co2, na.rm = T), coal_co2))
 
-data <- data[,c("country","year","iso_code","co2_per_capita","co2_growth_abs","coal_co2")] 
+data <- data[,c("country","year","co2_per_capita","co2_growth_abs","coal_co2")] 
 
 ## data averages
 co2_per_capita_average <- data.frame(data %>% 
