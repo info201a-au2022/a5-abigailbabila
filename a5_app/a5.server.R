@@ -43,11 +43,9 @@ co2_growth_abs_average <- data.frame(data %>%
                                        summarize(Mean = mean(co2_growth_abs))) %>% pull(Mean)
 coal_co2_average <- data.frame(data %>% 
                                  filter(year == 2021) %>% 
-                                 summarize(Mean = mean(coal_co2)) %>% pull(Mean)
+                                 summarize(Mean = mean(coal_co2))) %>% pull(Mean)
                                
-temp <- data.frame(data %>% 
-                     filter(!country 
-                            %in% c('World','Asia')))
+temp <- data.frame(data %>% filter(!country %in% c('World','Asia')))
 
 ## max and min of data
 
@@ -68,7 +66,7 @@ data_co2 <- data %>%
   mutate(
     difference_co2_per_capita = co2_per_capita - lag(co2_per_capita),
     difference_co2_growth_abs = co2_growth_abs - lag(co2_growth_abs),
-    difference_coal_co2 = oil_co2 - lag(oil_co2)
+    difference_coal_co2 = coal_co2 - lag(coal_co2)
   )
 
 ## difference in percentage
@@ -126,20 +124,3 @@ server <- function(input, output, session) {
   
 }
 
-# Define server logic required to draw a histogram
-#shinyServer(function(input, output) {
-
- #   output$distPlot <- renderPlot({
-
-        # generate bins based on input$bins from ui.R
-  #      x    <- faithful[, 2]
-   #     bins <- seq(min(x), max(x), length.out = input$bins + 1)
-
-        # draw the histogram with the specified number of bins
-    #    hist(x, breaks = bins, col = 'darkgray', border = 'white',
-     #        xlab = 'Waiting time to next eruption (in mins)',
-      #       main = 'Histogram of waiting times')
-
-#    })
-
-#})

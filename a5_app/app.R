@@ -14,6 +14,6 @@ library(MASS)
 library(caTools)
 library(broom)
 
-source("a5.server.R")
-source("a5.ui.R")
-shinyApp(ui = ui, server = server)
+source("https://raw.githubusercontent.com/info201a-au2022/a5-abigailbabila/main/a5_app/a5.ui.R")
+source("https://raw.githubusercontent.com/info201a-au2022/a5-abigailbabila/main/a5_app/a5.server.R")
+

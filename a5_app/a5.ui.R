@@ -30,24 +30,23 @@ ui <-
                    tags$li(tags$b("Absolute Growth of CO2 (co2_growth_abs)")),
                    tags$li(tags$b("CO2 Emissions From Coal (coal_co2)"))
                  ),
-                 p("After investigating the data, we found important average values regarding the variables studied.These results are collected from 2021.")
-                    tags$li("Average value of CO2 emissions per captia (co2_per_capita) in the world:",round(co2_per_capita_average,2)),
-                    tags$li("Average value of absolute growth of CO2(co2_growth_abs) in the world:",round(co2_growth_abs_average,2)),
-                    tags$li("Average value of CO2 emissions from coal (coal_co2) in the world:",round(coal_co2_average,2))
+                 tags$ul(tags$b("Average Values"),
+                         tags$li("The average value of co2_per_capita across all the counties (in the year 2021) is",round(co2_per_capita_average,2)),
+                         tags$li("The average value of co2_growth_abs across all the counties (in the year 2021) is",round(co2_growth_abs_average,2)),
+                         tags$li("The average value of oil_co2 across all the counties (in the year 2021) is",round(coal_co2_average,2))
                  ),
-                 p("We also found highest and lowest values of CO2 emissions from these values")
-                         tags$li("Highest value of CO2 emissions per captia (co2_per_capita) in the world:",round(highest_co2_per_capita,2),"in",highest_co2_per_capita$year,"for: ",highest_co2_per_capita$country),
-                         tags$li("Lowest value of CO2 emissions per captia (co2_per_capita) in the world",round(min_co2_per_capita$co2_per_capita,2),"in",lowest_co2_per_capita$year,"for: ",lowest_co2_per_capita$country),
+                 tags$ul(tags$b("Highest/Lowest Values"),
+                         tags$li("Highest value of CO2 emissions per captia (co2_per_capita) in the world: ",round(highest_co2_per_capita,2),"in ",highest_co2_per_capita$year,"for: ",highest_co2_per_capita$country),
+                         tags$li("Lowest value of CO2 emissions per captia (co2_per_capita) in the world: ",round(min_co2_per_capita$co2_per_capita,2),"in ",lowest_co2_per_capita$year,"for: ",lowest_co2_per_capita$country),
                          
-                         tags$li("Highest value of absolute growth of CO2(co2_growth_abs) in the world:",round(highest_co2_growth_abs$co2_growth_abs,2),"in",highest_co2_growth_abs$year,"for: ",max_co2_growth_abs$country),
-                         tags$li("Lowest value of absolute growth of CO2(co2_growth_abs) in the world:",round(lowest_co2_growth_abs$co2_growth_abs,2),"in",lowest_co2_growth_abs$year,"for: ",lowest_co2_growth_abs$country),
+                         tags$li("Highest value of absolute growth of CO2(co2_growth_abs) in the world: ",round(highest_co2_growth_abs$co2_growth_abs,2),"in ",highest_co2_growth_abs$year,"for: ",max_co2_growth_abs$country),
+                         tags$li("Lowest value of absolute growth of CO2(co2_growth_abs) in the world: ",round(lowest_co2_growth_abs$co2_growth_abs,2),"in ",lowest_co2_growth_abs$year,"for: ",lowest_co2_growth_abs$country),
                          
-                         tags$li("Highest value of CO2 emissions from coal (coal_co2) in the world:",round(highest_coal_co2$oil_co2,2),"in",highest_coal_co2$year,"for country : ",highest_coal_co22$country),
-                         tags$li("Lowest value of CO2 emissions from coal (coal_co2) in the world",round(min_oil_co2$oil_co2,2),"in",lowest_coal_co22$year,"for country : ",lowest_coal_co2$country),
-                         
+                         tags$li("Highest value of CO2 emissions from coal (coal_co2) in the world: ",round(highest_coal_co2$oil_co2,2),"in ",highest_coal_co2$year,"for country : ",highest_coal_co22$country),
+                         tags$li("Lowest value of CO2 emissions from coal (coal_co2) in the world: ",round(min_oil_co2$oil_co2,2),"in ",lowest_coal_co22$year,"for: ",lowest_coal_co2$country)
                  ),
                  p("These are the percent change the variables studied from 1960-2021")),
-                 p(tags$b("Percentage change of CO2 emissions per captia (co2_per_capita:)"))
+                 p(tags$b("Percentage change of CO2 emissions per capita (co2_per_capita:)")),
                  DT::dataTableOutput("percent_difference_co2_per_capita"),
                  p(tags$b("Percentage change of absolute growth of CO2(co2_growth_abs:)")),
                  DT::dataTableOutput("percent_difference_co2_growth_abs"),
@@ -55,17 +54,16 @@ ui <-
                  DT::dataTableOutput("percent_difference_coal_co2")
                )
       ),
-      tabPanel("Interactive Visualization",
+      tabPanel("Interactive Graph",
                fluidPage(
                  
                  titlePanel("Line Graph"),
                  sidebarLayout(
                    
                    sidebarPanel(
-                     # selector for Country
                      h3("CO2 Emissions for Each Country Throughout Years"),
                      selectInput(
-                       inputId = "choose_a_country",
+                       inputId = "choose_country",
                        label = "Choose a country",
                        choices =unique(data$country),
                        selected = "United States",
@@ -83,13 +81,8 @@ ui <-
                      br(),
                      br(),
                    mainPanel(
-                     # epicurve goes here
-                     plotlyOutput("plot_bar_country"),
-                     p('Caption : The above bar graph shows the relationship between selected variables of CO2 and year for different countries.In the year 2021 the Co2 per Capita has incresased for all the countries.'),
-                     plotlyOutput("plot_line_country"),
-                     p('Caption : The line bar is controlled by the Country, variable for co2 & year range. From yaer 1991 to 2021, almost all the counties have started reocding their co2 varaibles.'),
-                     plotlyOutput("plot_group_bar"),
-                     p('Caption : Group bar chart for all the co2 related varaibles by country.')
+                     plotlyOutput("line_plot_country"),
+                     p('This graph describes the relationship between CO2 emissions and countries throughout 1960 and 2021, This is a customizable graph where you can choose which country, variable, and year range to see.')
                    )
                    
                  )
@@ -100,7 +93,11 @@ ui <-
 
 
 
-
+#tags$ul(tags$b("Average Values"),
+ #       tags$li("Average value of CO2 emissions per captia (co2_per_capita) in the world:",round(co2_per_capita_average,2)),
+  #      tags$li("Average value of absolute growth of CO2 (co2_growth_abs) in the world:",round(co2_growth_abs_average,2)),
+   #     tags$li("Average value of CO2 emissions from coal (coal_co2) in the world:",round(coal_co2_average,2))
+#),
 
 # Define UI for application that draws a histogram
 #shinyUI(fluidPage(
